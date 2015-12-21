@@ -20,10 +20,8 @@ public class BaseDaoImpl implements BaseDao {
 	@Transactional
 	public Object save(Object o) {
 		Session s = sessionFactory.getCurrentSession();
-//		s.beginTransaction();
 		return  getSession().save(o);
-//		s.clear();
-//		return r;
+
 	}
 
 	@Override

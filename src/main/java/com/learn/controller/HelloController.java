@@ -1,12 +1,15 @@
 package com.learn.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -23,16 +26,32 @@ public class HelloController {
 	@Autowired
 	UserService userService;
 	
-	@RequestMapping(value="/sir", method=RequestMethod.GET, produces=MediaType.APPLICATION_JSON_VALUE)
-	public @ResponseBody String sayHello(ModelMap model){
-		model.addAttribute("called", "HERE");
-		return "list";
+	@RequestMapping(value="/sir", method=RequestMethod.GET)
+	public ResponseEntity<User> sayHello(){
+		//model.addAttribute("called", "HERE");
+		User u = new User();
+		u.setUserName("Karim");
+		u.setMobile("0122222222");
+		return new ResponseEntity<User>(u, HttpStatus.FORBIDDEN);
 	}
 	
 	@RequestMapping(value="/{name}",method=RequestMethod.GET , produces=MediaType.APPLICATION_JSON_VALUE)
-	public @ResponseBody String sayHelloFor(@PathVariable String name){
-		return name;
+	public @ResponseBody User sayHelloFor(@PathVariable String name){
+		User u = new User();
+		u.setUserName("Karim");
+		u.setMobile("0122222222");
+		return u;
 	}
+	
+	@RequestMapping(value = "/update", method = RequestMethod.POST)
+	public ResponseEntity<User> update(@RequestBody User user) {
+		System.out.println("Entered Updates");
+		if (user != null) {
+			user.setMobile("No Mobile .....");
+		}
+		return new ResponseEntity<User>(user, HttpStatus.OK);
+	}
+	
 	
 	@RequestMapping(value="/add" , method=RequestMethod.GET, produces=MediaType.APPLICATION_JSON_VALUE)
 	public @ResponseBody void addUser(@RequestParam String name, @RequestParam String mobile){
@@ -50,8 +69,23 @@ public class HelloController {
 	}
 	
 	@RequestMapping(value="/list", method=RequestMethod.GET)
-	public @ResponseBody List<User> listUsers(){
-		return userService.listUsers();
+	public ResponseEntity<List<User>> listUsers(){
+		System.out.println("===============Will Enter");
+		User u = new User();
+		u.setUserName("Karim");
+		u.setMobile("0122222222");
+		List<User> l = new ArrayList<User>();
+		l.add(u);
+		l.add(u);
+		l.add(u);
+		l.add(u);
+		l.add(u);
+		l.add(u);
+		l.add(u);
+		l.add(u);
+		l.add(u);
+		System.out.println("================Will return");
+		return new ResponseEntity<List<User>>(l, HttpStatus.OK);
 	}
 	
 	
